@@ -1,0 +1,29 @@
+from flask import Flask, request, render_template_string
+
+app = Flask(__name__)
+
+# Hardcoded username and password for testing
+USERNAME = 'testuser'
+PASSWORD = 'letmein'
+
+login_form = '''
+    <form method="POST">
+        Username: <input name="username" /><br/>
+        Password: <input name="password" type="password" /><br/>
+        <input type="submit" value="Login" />
+    </form>
+'''
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if username == USERNAME and password == PASSWORD:
+            return 'Login successful!'
+        else:
+            return 'Login failed!' + login_form
+    return login_form
+
+if __name__ == '__main__':
+    app.run(debug=True)
